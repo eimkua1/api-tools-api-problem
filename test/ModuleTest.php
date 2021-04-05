@@ -36,14 +36,14 @@ class ModuleTest extends TestCase
     {
         $module = new Module();
 
-        $application = $this->getMockBuilder(Application::class)
+        $application    = $this->getMockBuilder(Application::class)
             ->disableOriginalConstructor()
             ->getMock();
         $serviceLocator = $this->getMockForAbstractClass(ServiceLocatorInterface::class);
         $serviceLocator->method('get')->will($this->returnCallback([$this, 'serviceLocator']));
 
         $eventManager = $this->marshalEventManager();
-        $event = $this->getMockBuilder(MvcEvent::class)->getMock();
+        $event        = $this->getMockBuilder(MvcEvent::class)->getMock();
 
         $application->method('getServiceManager')->willReturn($serviceLocator);
         $application->method('getEventManager')->willReturn($eventManager);
@@ -55,7 +55,7 @@ class ModuleTest extends TestCase
     public function serviceLocator($service)
     {
         switch ($service) {
-            case 'Laminas\ApiTools\ApiProblem\Listener\ApiProblemListener':
+            case ApiProblemListener::class:
                 return new ApiProblemListener();
                 break;
             case 'SendResponseListener':
@@ -67,7 +67,6 @@ class ModuleTest extends TestCase
             case SendApiProblemResponseListener::class:
                 return new SendApiProblemResponseListener();
             default:
-                //
         }
     }
 }
