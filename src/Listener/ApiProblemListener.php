@@ -213,7 +213,7 @@ class ApiProblemListener extends AbstractListenerAggregate
     {
         foreach ($this->acceptFilters as $type) {
             $match = $accept->match($type);
-            if ($match && $match->getTypeString() != '*/*') {
+            if ($match && $match->getTypeString() !== '*/*') {
                 return true;
             }
         }

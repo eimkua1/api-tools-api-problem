@@ -16,11 +16,13 @@ use Laminas\Mvc\Application;
 use Laminas\Mvc\MvcEvent;
 use Laminas\Mvc\SendResponseListener;
 use Laminas\ServiceManager\ServiceLocatorInterface;
+use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use ReflectionClass;
 
 class ModuleTest extends TestCase
 {
+    /** @return EventManager */
     public function marshalEventManager()
     {
         $r = new ReflectionClass(EventManager::class);
@@ -52,18 +54,20 @@ class ModuleTest extends TestCase
         $module->onBootstrap($event);
     }
 
+    /**
+     * @param string $service
+     * @return ApiProblemListener|SendApiProblemResponseListener|SendResponseListener|MockObject
+     */
     public function serviceLocator($service)
     {
         switch ($service) {
             case ApiProblemListener::class:
                 return new ApiProblemListener();
-                break;
             case 'SendResponseListener':
                 $listener = $this->getMockBuilder(SendResponseListener::class)->getMock();
                 $listener->method('getEventManager')->willReturn(new EventManager());
 
                 return $listener;
-                break;
             case SendApiProblemResponseListener::class:
                 return new SendApiProblemResponseListener();
             default:

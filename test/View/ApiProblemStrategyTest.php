@@ -14,6 +14,7 @@ use Laminas\ApiTools\ApiProblem\View\ApiProblemRenderer;
 use Laminas\ApiTools\ApiProblem\View\ApiProblemStrategy;
 use Laminas\Http\Response;
 use Laminas\View\Model\JsonModel;
+use Laminas\View\Model\ModelInterface as Model;
 use Laminas\View\Model\ViewModel;
 use Laminas\View\ViewEvent;
 use PHPUnit\Framework\TestCase;
@@ -30,6 +31,7 @@ class ApiProblemStrategyTest extends TestCase
         $this->strategy = new ApiProblemStrategy($this->renderer);
     }
 
+    /** @return array */
     public function invalidViewModels()
     {
         return [
@@ -41,6 +43,7 @@ class ApiProblemStrategyTest extends TestCase
 
     /**
      * @dataProvider invalidViewModels
+     * @param null|Model $model
      */
     public function testSelectRendererReturnsNullIfModelIsNotAnApiProblemModel($model)
     {
@@ -80,6 +83,7 @@ class ApiProblemStrategyTest extends TestCase
         $this->assertEquals(ApiProblem::CONTENT_TYPE, $header->getFieldValue());
     }
 
+    /** @return array */
     public function invalidStatusCodes()
     {
         return [
@@ -93,6 +97,7 @@ class ApiProblemStrategyTest extends TestCase
 
     /**
      * @dataProvider invalidStatusCodes
+     * @param int $status
      */
     public function testUsesStatusCode500ForAnyStatusCodesAbove599OrBelow100($status)
     {

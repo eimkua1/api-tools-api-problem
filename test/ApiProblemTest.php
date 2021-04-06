@@ -16,6 +16,7 @@ use TypeError;
 
 class ApiProblemTest extends TestCase
 {
+    /** @return array */
     public function statusCodes()
     {
         return [
@@ -33,6 +34,7 @@ class ApiProblemTest extends TestCase
 
     /**
      * @dataProvider statusCodes
+     * @param int $status
      */
     public function testStatusIsUsedVerbatim($status)
     {
@@ -124,6 +126,7 @@ class ApiProblemTest extends TestCase
         $this->assertEquals('http://status.dev:8080/details.md', $payload['type']);
     }
 
+    /** @return array */
     public function knownStatusCodes()
     {
         return [
@@ -136,6 +139,7 @@ class ApiProblemTest extends TestCase
 
     /**
      * @dataProvider knownStatusCodes
+     * @param int $status
      */
     public function testKnownStatusResultsInKnownTitle($status)
     {
@@ -236,6 +240,7 @@ class ApiProblemTest extends TestCase
         $this->assertEquals('bar', $payload['foo']);
     }
 
+    /** @return array */
     public function invalidStatusCodes()
     {
         return [
@@ -250,6 +255,7 @@ class ApiProblemTest extends TestCase
     /**
      * @dataProvider invalidStatusCodes
      * @group api-tools-118
+     * @param int $code
      */
     public function testInvalidHttpStatusCodesAreCastTo500($code)
     {

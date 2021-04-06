@@ -32,7 +32,7 @@ class ApiProblem
     /**
      * Content type for api problem response
      */
-    const CONTENT_TYPE = 'application/problem+json';
+    public const CONTENT_TYPE = 'application/problem+json';
 
     /**
      * Additional details to include in report.
@@ -298,13 +298,13 @@ class ApiProblem
 
         if (
             null === $this->title
-            && $this->type == 'http://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html'
+            && $this->type === 'http://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html'
             && array_key_exists($this->getStatus(), $this->problemStatusTitles)
         ) {
             return $this->problemStatusTitles[$this->status];
         }
 
-        if ($this->detail instanceof Throwable || $this->detail instanceof Exception) {
+        if ($this->detail instanceof Throwable) {
             return get_class($this->detail);
         }
 
